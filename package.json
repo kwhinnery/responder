@@ -10,7 +10,6 @@
     "express": "3.4.4",
     "ejs": "*",
     "twilio": "1.4.0",
-    "node-csv": "git+ssh://git@github.com:voodootikigod/node-csv.git#master",
     "cookie": "~0.1.0",
     "levenshtein": "~1.0.2"
   }
