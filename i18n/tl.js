@@ -1,4 +1,4 @@
-// special thanks to Nellie T. of Joint-Base Lewis McChord, WA for translation assistance.
+// special thanks to Nellie T. of Joint Base Lewis-McChord, WA for translation assistance.
 
 module.exports = {
     welcome:'Tulungan po ninyo kami sa pagsagot ng mga tanong na ito sa pamamagitan ng text.',
