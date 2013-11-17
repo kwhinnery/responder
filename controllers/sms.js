@@ -1,9 +1,7 @@
 var twilio = require('twilio'),
-    path = require('path'),
     util = require('util'),
-    csv = require('node-csv'),
     cookie = require('cookie'),
-    Levenshtein = require('levenshtein'),
+    data = require('../data'),
     i18n = require('../i18n');
 
 // When the node process fires up, read in administrative data from the CSVs
@@ -41,6 +39,7 @@ module.exports = function(request, response) {
             smsCookie = JSON.parse(cookies.sms);
         }
 
+        // Continue the conversation, if appropriate
         if (smsCookie && smsCookie.step > 0) {
             // Get SMS body to process
             var body = request.param('Body').trim();
@@ -123,7 +122,7 @@ module.exports = function(request, response) {
             }
         } else {
             // Else, prompt them to begin the interview, and update conversation state
-            smsResponse = 'Thanks for contacting Doctors Without Borders. To continue in English, text the word "English". Upang magpatuloy sa Filipino, text ang salitang "Pilipino"';
+            smsResponse = 'Thank you for helping the international aid response! To continue in English, text the word "English". Upang magpatuloy sa Filipino, text ang salitang "Pilipino"';
             setCookie(response, {step:1});
         }
 
