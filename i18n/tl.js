@@ -1,10 +1,12 @@
+// special thanks to Nellie T. of Joint Base Lewis-McChord, WA for translation assistance.
+
 module.exports = {
-    welcome:'[TL] Please help us by answering the following questions via text message.',
-    village:'[TL] What is the name of your village? Example: "Agbuwakan"',
-    didYouMeanVillage:'[TL] We think you might mean this village: %s - is that correct? Answer "yes" or "no":',
-    villageSuccess:'[TL] Okay, you are in %s.',
-    villageFail:'[TL] Okay, we will store your village name to be examined by our team.',
-    typeOfIssue:'[TL] What sort of issue are you experiencing?  Choices are: "Water", "Food", "Sickness", "Violence", or "Other"',
-    detail:'[TL] Please describe your issue in a bit more detail - what is going on in your town or village?',
-    thanks:'[TL] Thank you for your report. We will do our best to help.'
+    welcome:'Tulungan po ninyo kami sa pagsagot ng mga tanong na ito sa pamamagitan ng text.',
+    village:'Ano ang pangalan ng inyong barangay? Halimbawa: "Agbuwakan"',
+    didYouMeanVillage:'Sa aming pagkakaalam ang ibig nyong sabihin ay ang barangay: %s - tama po ba? Sagutin ng oo o hindi.',
+    villageSuccess:'Okey, kayo ay nasa %s.',
+    villageFail:'Okey, ilalagay namin ang pangalan ng barangay ninyo para masiyasat ng aming grupo.',
+    typeOfIssue:'Ano ang mga problemang hinaharap ninyo ngayon? "Tubig", "Pagkain", "Sakit", "Karahasan" o "Iba pa"',
+    detail:'Pakilarawan po ang inyong problema, magbigay kayo ng mga detalye - ano ang nangyayari ngayon sa inyong munisipyo o baryo?',
+    thanks:'Salamat po sa inyong  ulat. Gagawin po namin ang aming makakaya para matulungan kayo.'
 };
