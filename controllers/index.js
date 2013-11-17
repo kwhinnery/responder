@@ -1,5 +1,6 @@
 // Configure application routes
 module.exports = function(app) {
-    // Twilio SMS webhook
+    // Twilio webhooks
     app.post('/sms', require('./sms'));
+    app.post('/voice', require('./voice'));
 };
