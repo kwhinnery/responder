@@ -55,3 +55,8 @@ exports.getClosestCity = function(province, input) {
 exports.getClosestBarangay = function(province, city, input) {
     return getClosest(input, Object.keys(provinces[province].munis[city].barangays));
 };
+
+// Get the closest village name to the entered string
+exports.getClosestVillage = function(province, city, barangay, input) {
+    return getClosest(input, Object.keys(provinces[province].munis[city].barangays[barangay].villages));
+};

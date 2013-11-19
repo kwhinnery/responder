@@ -12,6 +12,8 @@
     "twilio": "1.4.0",
     "cookie": "~0.1.0",
     "levenshtein": "~1.0.2",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "pg": "~2.8.2",
+    "sql": "~0.32.0"
   }
 }
