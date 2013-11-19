@@ -4,6 +4,7 @@ var twilio = require('twilio'),
     _ = require('underscore'),
     data = require('../data'),
     i18n = require('../i18n'),
+    Report = require('../models/Report'),
     ushahidi = require('ushahidi');
 
 // Create a Ushahidi client to submit reports to the back end
@@ -11,7 +12,7 @@ var twilio = require('twilio'),
 
 // Conduct an interview based on the current session state, return a message,
 // And update the session state
-function interview(sessionState, input) {
+function interview(sessionState, input, phone) {
     var state = _.extend({
         step:'start'
     },sessionState||{});
@@ -27,8 +28,18 @@ function interview(sessionState, input) {
     // from multiple points in the interview process
 
     function saveInterview() {
-        // TODO: Persist current state
-        console.log(JSON.stringify(state, null, 2));
+        // Save report contents
+        var report = new Report(state);
+        report.save(function(err, report) {
+            if (err) {
+                console.error('Problem saving report: '+err);
+                console.error('State was: '+JSON.stringify(state, null, 2));
+            } else {
+                console.log('Report saved.');
+                // TODO: Ship to Ushahidi
+            }
+        });
+
 
         // Reset conversation state
         state = {step:'start'};
@@ -255,7 +266,11 @@ module.exports = function(request, response) {
         }
 
         // Interview the texter based on the current session state
-        var smsCookie = interview(smsCookie, request.param('Body').trim());
+        var smsCookie = interview(
+            smsCookie, // current session state
+            request.param('Body').trim(), // text message contents
+            request.param('From') // phone number the caller is coming from
+        );
 
         // Set cookie for subsequent replies
         response.cookie('sms', JSON.stringify(smsCookie), { maxAge: 9000000 });
