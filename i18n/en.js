@@ -10,7 +10,8 @@ module.exports = {
     , startOver: 'start over'
 
     // This is for strings that are shown to the user
-    , notFound: 'We could not find that location, but that\'s okay.  You can tell us where you are in your own words at the end of the survey.'
+    , optOut: 'Okay, thank you - please contact local authorities for any emergency needs.'
+    , notFound: 'We could not find that location, but that is fine. You can tell us where you are in your own words at the end of the survey.'
     , matchConfirm: 'We thought you said "%s". Is that right? (Text "%s" or "%s")'
     , purposeConfirm: 'Your report will help international aid workers understand current areas of need. If you need help right now, please contact local authorities. To start over at any time, text "%s". Continue? (Text "%s" or "%s")'
     , province: 'Great, we are going to ask you a few questions.  If you don\'t know the answer, type "%s". What province are you in? (Example: "Iloilo")'

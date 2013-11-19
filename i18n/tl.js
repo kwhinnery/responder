@@ -10,6 +10,7 @@ module.exports = {
     , startOver: 'start over'
 
     // This is for strings that are shown to the user
+    , optOut: 'Okay, thank you - please contact local authorities for any emergency needs.'
     , notFound: '[TL]We could not find that location, but that\'s okay.  You can tell us where you are in your own words at the end of the survey.'
     , matchConfirm: '[TL]We thought you said "%s". Is that right? (Text "%s" or "%s")'
     , purposeConfirm: '[TL]Your report will help international aid workers understand current areas of need. If you need help right now, please contact local authorities. To start over at any time, text "%s". Continue? (Text "%s" or "%s")'

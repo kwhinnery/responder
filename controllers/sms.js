@@ -64,21 +64,30 @@ function interview(sessionState, input) {
 
     } else if (state.step === 'province') {
 
+        // Opt out
         if (input.toLowerCase() === strings.no.toLowerCase()) {
-            state.step = 'done';
-        }
+            state = {
+                step:'start',
+                lastMessage:strings.optOut
+            };
 
-        // Now, we need to begin by asking them for their province
-        state.step = 'provinceConfirm';
-        state.lastMessage = util.format(strings.province, strings.notSure);
+        } else {
+            // Now, we need to begin by asking them for their province
+            state.step = 'provinceConfirm';
+            state.lastMessage = util.format(strings.province, strings.notSure);
+        }
 
     } else if (state.step === 'provinceConfirm') {
 
-        // Let's work with their entered province
-        state.enteredProvince = input;
-        state.matchedProvince = data.getClosestProvince(input);
-        state.step = 'provinceEntered';
-        state.lastMessage = util.format(strings.matchConfirm, state.matchedProvince, strings.yes, strings.no);
+        if (input.toLowerCase() === strings.notSure.toLowerCase()) {
+            skipToProblem();
+        } else {
+            // Let's work with their entered province
+            state.enteredProvince = input;
+            state.matchedProvince = data.getClosestProvince(input);
+            state.step = 'provinceEntered';
+            state.lastMessage = util.format(strings.matchConfirm, state.matchedProvince, strings.yes, strings.no);
+        }
 
     } else if (state.step === 'provinceEntered') {
 
