@@ -29,6 +29,12 @@ function interview(sessionState, input, phone) {
 
     function saveInterview() {
         // Save report contents
+
+        // Add phone number to state, if they have permitted it
+        if (state.canContact) {
+            state.phone = phone;
+        }
+
         var report = new Report(state);
         report.save(function(err, report) {
             if (err) {
