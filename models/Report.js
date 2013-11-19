@@ -48,7 +48,7 @@ var categories = {
 };
 
 // Based on report properties, submit a report to Ushahidi
-reportSchema.methods.exportToUshahidi = function() {
+reportSchema.methods.exportToUshahidi = function(cb) {
     var self = this, reportData = {
         incident_title:'[SMS Report]: '+this.problemDetail,
         incident_description:this.comment,
@@ -57,39 +57,44 @@ reportSchema.methods.exportToUshahidi = function() {
             this.date.getDate(), 
             this.date.getFullYear()),
         incident_hour: (this.date.getHours() < 12) ? this.date.getHours() : this.date.getHours()-12,
-        incident_minutes: this.date.getMinutes(),
+        incident_minute: this.date.getMinutes(),
         incident_ampm: (this.date.getHours() < 12) ? 'am' : 'pm',
         incident_category: categories[this.problemType],
-        incident_location_name: util.format('%s, %s, %s, %s', 
-            this.matchedProvince||'Unknown Province',
-            this.matchedCity||'Unknown Municipality',
-            this.matchedBarangay||'Unknown Barangay',
-            this.matchedVillage||'Unknown Village/Island')
+        location_name: util.format('Province: %s, Municipality: %s, Barangay: %s, Village/Island: %s', 
+            this.matchedProvince||'Unknown',
+            this.matchedCity||'Unknown',
+            this.matchedBarangay||'Unknown',
+            this.matchedVillage||'Unknown')
     };
 
     // Determine the best lat/long we can use
     var lat = 11.3333, lng = 123.0167;
     if (this.matchedVillage) {
         lat = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].villages[this.matchedVillage].lat;
-        lat = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].villages[this.matchedVillage].lng;
+        lng = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].villages[this.matchedVillage].lng;
     } else if (this.matchedBarangay) {
         lat = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].lat;
-        lat = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].lng;
+        lng = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].lng;
     } else if (this.matchedCity) {
         lat = data.provinces[this.matchedProvince].munis[this.matchedCity].lat;
-        lat = data.provinces[this.matchedProvince].munis[this.matchedCity].lng;
+        lng = data.provinces[this.matchedProvince].munis[this.matchedCity].lng;
     }
     // TODO: we still need province lat/longs
 
     reportData.latitude = lat;
     reportData.longitude = lng;
 
+    console.log(reportData.latitude);
+    console.log(reportData.longitude);
+
     // Use the ushahidi client to submit a report
     ushahidi.submitReport(reportData,function(data) {
         console.log(data);
+        cb && cb(null, data);
     }, function (error) {
         console.error('Error submitting report to Ushahidi: '+error);
         console.error('Report is: '+self);
+        cb && cb(error);
     });
 };
 
