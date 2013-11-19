@@ -60,11 +60,11 @@ function interview(sessionState, input) {
         strings = i18n(state.language);
 
         state.step = 'province';
-        state.lastMessage = util.format(strings.purposeConfirm, strings.yes, strings.no);
+        state.lastMessage = util.format(strings.purposeConfirm, strings.startOver, strings.yes, strings.no);
 
     } else if (state.step === 'province') {
 
-        if (input.toLowerCase() === strings.no) {
+        if (input.toLowerCase() === strings.no.toLowerCase()) {
             state.step = 'done';
         }
 
