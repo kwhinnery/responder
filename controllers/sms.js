@@ -4,7 +4,7 @@ var twilio = require('twilio'),
     _ = require('underscore'),
     data = require('../data'),
     i18n = require('../i18n'),
-    ushahidi = require('../data/ushahidi');
+    ushahidi = require('ushahidi');
 
 // Create a Ushahidi client to submit reports to the back end
 //var uclient = new ushahidi.Client('https://www.haiyantextforhelp.com');
@@ -44,6 +44,13 @@ function interview(sessionState, input) {
     // Get local strings for the default or chosen langauge
     var chosenLanguage = state.language === 'tl' ? 'tl' : 'en';
     var strings = i18n(chosenLanguage);
+
+    // Allow start over command
+    if (input.toLowerCase() === strings.startOver.toLowerCase()) {
+        state = {step:'purposeConfirm'};
+        state.lastMessage = state.lastMessage = i18n('en').preroll;
+        return state;
+    }
 
     // Start processing input, based on conversation state
     if (state.step === 'purposeConfirm') {
@@ -188,7 +195,7 @@ function interview(sessionState, input) {
 
         // capture how many folks are affected
         state.howMany = input; // TODO: parse a number instead?
-        
+
         //ask if we can contact them
         state.lastMessage = util.format(strings.canContact, strings.yes, strings.no);
         state.step = 'captureContact';
