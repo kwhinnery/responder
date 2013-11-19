@@ -36,6 +36,7 @@ function interview(sessionState, input) {
     // Prompt the user to free form enter their location, so a human can try
     // and locate later...
     function skipToProblem() {
+        state.locationFailed = true; //flag for manual geocoding
         state.step = 'problem';
         state.lastMessage = strings.notFound +' '+ strings.problem;
     }
@@ -178,6 +179,7 @@ function interview(sessionState, input) {
 
         // capture problem details
         state.problemDetail = input;
+
         //ask for affected persons
         state.lastMessage = strings.howMany;
         state.step = 'howMany';
@@ -186,18 +188,27 @@ function interview(sessionState, input) {
 
         // capture how many folks are affected
         state.howMany = input; // TODO: parse a number instead?
+        
         //ask if we can contact them
         state.lastMessage = util.format(strings.canContact, strings.yes, strings.no);
         state.step = 'captureContact';
 
     } else if (state.step == 'captureContact') {
 
-        // capture how many folks are affected
+        // ask if we can contact them
         if (input.toLowerCase() === strings.yes.toLowerCase()) {
             state.canContact = true;
         } else {
             state.canContact = false;
         }
+
+        state.step = 'comment';
+        state.lastMessage = strings.comment;
+
+    } else if (state.step == 'comment') {
+
+        // capture a free form comment
+        state.comment = input;
 
         // That's it for now
         saveInterview();

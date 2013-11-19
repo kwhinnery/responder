@@ -26,5 +26,6 @@ module.exports = {
     , otherProblem: 'Please describe the problem you are seeing in your own words.'
     , howMany: 'About how many people are affected by this problem? (Example: 42)'
     , canContact: 'May we contact you at this number if we need more information? (Text "%s" or "%s")'
+    , comment: 'Is there anything else we should know? Also, if we did not recognize your location, please tell us precisely where you are.'
     , thanks: 'Thank you for this report. It will help the international aid response to understand how we can help.'
 };
