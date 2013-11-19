@@ -27,10 +27,12 @@ function interview(sessionState, input) {
     // from multiple points in the interview process
 
     function saveInterview() {
+        // TODO: Persist current state
+        console.log(JSON.stringify(state, null, 2));
+
         // Reset conversation state
         state = {step:'start'};
         state.lastMessage = strings.thanks;
-        console.log(JSON.stringify(state, null, 2));
     }
 
     // Prompt the user to free form enter their location, so a human can try
