@@ -3,7 +3,14 @@ var data = require('../data'),
     mongoose = require('mongoose');
 
 Report.find({}, function(err, reports) {
-    report = reports[0];
-    console.log(report);
+    report = reports[1];
     report.exportToUshahidi();
+    mongoose.connection.close();
+
+    Report.find({}, function(err, reports) {
+        report = reports[2];
+        report.exportToUshahidi();
+        mongoose.connection.close();
+    });
 });
+

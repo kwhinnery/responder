@@ -51,7 +51,7 @@ var categories = {
 reportSchema.methods.exportToUshahidi = function(cb) {
     var self = this, reportData = {
         incident_title:'[SMS Report]: '+this.problemDetail,
-        incident_description:this.comment,
+        incident_description:this.comment +'. Persons affected: '+ this.howMany,
         incident_date:util.format('%d/%d/%d', 
             this.date.getMonth()+1, 
             this.date.getDate(), 
@@ -84,12 +84,9 @@ reportSchema.methods.exportToUshahidi = function(cb) {
     reportData.latitude = lat;
     reportData.longitude = lng;
 
-    console.log(reportData.latitude);
-    console.log(reportData.longitude);
-
     // Use the ushahidi client to submit a report
     ushahidi.submitReport(reportData,function(data) {
-        console.log(data);
+        console.log('Ushahidi report submitted: '+JSON.stringify(data, null, 2));
         cb && cb(null, data);
     }, function (error) {
         console.error('Error submitting report to Ushahidi: '+error);
