@@ -68,7 +68,7 @@ reportSchema.methods.exportToUshahidi = function() {
     };
 
     // Determine the best lat/long we can use
-    var lat, lng;
+    var lat = 11.3333, lng = 123.0167;
     if (this.matchedVillage) {
         lat = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].villages[this.matchedVillage].lat;
         lat = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].villages[this.matchedVillage].lng;
@@ -87,7 +87,6 @@ reportSchema.methods.exportToUshahidi = function() {
     // Use the ushahidi client to submit a report
     ushahidi.submitReport(reportData,function(data) {
         console.log(data);
-        response.send('Hello World!');
     }, function (error) {
         console.error('Error submitting report to Ushahidi: '+error);
         console.error('Report is: '+self);
