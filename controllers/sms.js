@@ -4,11 +4,7 @@ var twilio = require('twilio'),
     _ = require('underscore'),
     data = require('../data'),
     i18n = require('../i18n'),
-    Report = require('../models/Report'),
-    ushahidi = require('ushahidi');
-
-// Create a Ushahidi client to submit reports to the back end
-//var uclient = new ushahidi.Client('https://www.haiyantextforhelp.com');
+    Report = require('../models/Report');
 
 // Conduct an interview based on the current session state, return a message,
 // And update the session state
@@ -28,13 +24,12 @@ function interview(sessionState, input, phone) {
     // from multiple points in the interview process
 
     function saveInterview() {
-        // Save report contents
-
         // Add phone number to state, if they have permitted it
         if (state.canContact) {
             state.phone = phone;
         }
 
+        // Persist the report, and export to Ushahidi
         var report = new Report(state);
         report.save(function(err, report) {
             if (err) {
@@ -42,7 +37,7 @@ function interview(sessionState, input, phone) {
                 console.error('State was: '+JSON.stringify(state, null, 2));
             } else {
                 console.log('Report saved.');
-                // TODO: Ship to Ushahidi
+                report.exportToUshahidi();
             }
         });
 
