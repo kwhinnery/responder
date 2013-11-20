@@ -16,7 +16,7 @@ function interview(sessionState, input, phone) {
     // If we have no conversation state, give the preroll message
     if (state.step === 'start') {
         state.step = 'purposeConfirm';
-        state.lastMessage = i18n('en').preroll;
+        state.lastMessage = i18n('ceb').preroll;
         return state;
     }
 
@@ -30,7 +30,7 @@ function interview(sessionState, input, phone) {
         }
 
         // Capture the most specific lat/long we can for this report
-        var reportLat = 11.3333, reportLng = 123.0167;
+        var reportLat, reportLng;
         if (state.matchedVillage) {
             reportLat = data.provinces[state.matchedProvince].munis[state.matchedCity].barangays[state.matchedBarangay].villages[state.matchedVillage].lat;
             reportLng = data.provinces[state.matchedProvince].munis[state.matchedCity].barangays[state.matchedBarangay].villages[state.matchedVillage].lng;
@@ -46,8 +46,8 @@ function interview(sessionState, input, phone) {
         }
 
         // Update the flow state for the Report model
-        state.lat = reportLat;
-        state.lng = reportLng;
+        state.lat = reportLat||11.3333;
+        state.lng = reportLng||123.0167;
 
         // Persist the report, and export to Ushahidi
         var report = new Report(state);
@@ -75,7 +75,8 @@ function interview(sessionState, input, phone) {
     }
 
     // Get local strings for the default or chosen langauge
-    var chosenLanguage = state.language === 'tl' ? 'tl' : 'en';
+
+    var chosenLanguage = state.language||'ceb';
     var strings = i18n(chosenLanguage);
 
     // Allow start over command
@@ -89,7 +90,13 @@ function interview(sessionState, input, phone) {
     if (state.step === 'purposeConfirm') {
         // First, respond to their desired language choice.  Don't use default
         // chosen above, set it for the first time
-        state.language = (input.toLowerCase() === 'pilipino') ? 'tl' : 'en';
+        if (input.toLowerCase() === 'pilipino') {
+            state.language = 'tl';
+        } else if (input.toLowerCase() === 'english') {
+            state.language = 'en';
+        } else {
+            state.language = 'ceb';
+        }
         strings = i18n(state.language);
 
         state.step = 'province';
@@ -118,8 +125,12 @@ function interview(sessionState, input, phone) {
             // Let's work with their entered province
             state.enteredProvince = input;
             state.matchedProvince = data.getClosestProvince(input);
-            state.step = 'provinceEntered';
-            state.lastMessage = util.format(strings.matchConfirm, state.matchedProvince, strings.yes, strings.no);
+            if (state.matchedProvince.toLowerCase() === 'none') {
+                skipToProblem();
+            } else {
+                state.step = 'provinceEntered';
+                state.lastMessage = util.format(strings.matchConfirm, state.matchedProvince, strings.yes, strings.no);
+            }
         }
 
     } else if (state.step === 'provinceEntered') {

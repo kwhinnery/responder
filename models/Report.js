@@ -4,7 +4,11 @@ var mongoose = require('mongoose'),
     ushahidi = require('ushahidi');
 
 // Create a Ushahidi client to submit reports for visualization
-ushahidi.init('https://www.haiyantextforhelp.com/index.php/api');
+ushahidi.init(
+    'https://www.haiyantextforhelp.com/index.php/api',
+    process.env.USHAHIDI_USER,
+    process.env.USHAHIDI_PASSWORD
+);
 
 // Model object for an incident report
 var reportSchema = new mongoose.Schema({
