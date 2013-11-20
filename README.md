@@ -4,7 +4,7 @@ Allow Filipinos affected by the storm to report conditions on the ground via SMS
 
 ## Server Deployment
 
-This application talks to a MongoDB back end, and requires a [Twilio account and number](http://www.twilio.com) for SMS integration.  Further, this application is set up to pipe data into a [Ushahidi](http://ushahidi.com/).  For now, the Ushahidi server is hard-coded, but could be moved to an environment variable soon.
+This application talks to a MongoDB back end, and requires a [Twilio account and number](http://www.twilio.com) for SMS integration.  Further, this application is set up to pipe data into a [Ushahidi](http://ushahidi.com/) instance.  
 
 This app should be deployable to any node.js host, but it currently resides on Heroku.  Before deploying to Heroku, you will need to export the necessary configuration values as environment variables `heroku config:add`:
 
@@ -13,6 +13,9 @@ The connection URL for a MongoDB instance.  The name suggests it needs to be [Mo
 
 #### TWILIO_SECRET
 A random string.  You can generate one with `openssl rand -base64 32`.  You will need this when you configure Twilio number web hooks.  This will be used to provide a thin layer of security to ensure incoming SMS requests are coming from known clients.  Twilio has a more secure way of doing this, but this allows the endpoints to change, and is more friendly for PaaS systems like Heroku and Nodejitsu.
+
+#### USHAHIDI_URL
+A Ushahidi API server.  It should be locked down to be a private instance, with approval for new users, and a user should be set up to add reports.  Example: `https://www.haiyantextforhelp.com/index.php/api`
 
 #### USHAHIDI_USER
 A valid Ushahidi user (your e-mail).  [Sign up on the site](https://www.haiyantextforhelp.com/) and I will approve you for testing.

@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 // Create a Ushahidi client to submit reports for visualization
 ushahidi.init(
-    'https://www.haiyantextforhelp.com/index.php/api',
+    process.env.USHAHIDI_URL,
     process.env.USHAHIDI_USER,
     process.env.USHAHIDI_PASSWORD
 );
