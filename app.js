@@ -22,6 +22,10 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
+// Setup Mongoose ODM
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGOHQ_URL);
+
 // Set up app routes
 require('./controllers')(app);
 

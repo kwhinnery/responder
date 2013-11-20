@@ -21,6 +21,22 @@ function writeJson() {
     });
 }
 
+// Parse in lat/long for provinces
+function processProvinces(provincesCallback) {
+    csv.each(path.join(__dirname, 'provinces.csv')).on('data', function(data) {
+        var province = data[0];
+        if (!provinces[province]) {
+            provinces[province] = {
+                munis: {}
+            };
+        }
+        provinces[province].lat = data[1];
+        provinces[province].lng = data[2];
+    })
+    .on('end', provincesCallback)
+    .on('error', provincesCallback);
+}
+
 // Parse in lat/long and additional data for cities
 function processCities(citiesCallback) {
     var first = false;
@@ -154,9 +170,10 @@ csv.each(path.join(__dirname, 'VillagesADM3.csv')).on('data', function(data) {
                 if (barangaysError) {
                     console.error('There was a problem parsing barangay data: '+barangaysError);
                 } else {
-                    console.log('[data]: Read in %d lines from VillagesADM3.csv', lineCount);
-                    console.log('[data]: Total Provinces: '+Object.keys(provinces).length);
-                    writeJson();
+                    processProvinces(function(provincesError) {
+                        console.log('[data]: Data Crunching Complete: Total Provinces: '+Object.keys(provinces).length);
+                        writeJson();
+                    });
                 }
             });
         }

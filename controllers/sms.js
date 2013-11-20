@@ -29,6 +29,26 @@ function interview(sessionState, input, phone) {
             state.phone = phone;
         }
 
+        // Capture the most specific lat/long we can for this report
+        var reportLat = 11.3333, reportLng = 123.0167;
+        if (state.matchedVillage) {
+            reportLat = data.provinces[state.matchedProvince].munis[state.matchedCity].barangays[state.matchedBarangay].villages[state.matchedVillage].lat;
+            reportLng = data.provinces[state.matchedProvince].munis[state.matchedCity].barangays[state.matchedBarangay].villages[state.matchedVillage].lng;
+        } else if (state.matchedBarangay) {
+            reportLat = data.provinces[state.matchedProvince].munis[state.matchedCity].barangays[state.matchedBarangay].lat;
+            reportLng = data.provinces[state.matchedProvince].munis[state.matchedCity].barangays[state.matchedBarangay].lng;
+        } else if (state.matchedCity) {
+            reportLat = data.provinces[state.matchedProvince].munis[state.matchedCity].lat;
+            reportLng = data.provinces[state.matchedProvince].munis[state.matchedCity].lng;
+        } else if (state.matchedProvince) {
+            reportLat = data.provinces[state.matchedProvince].lat;
+            reportLng = data.provinces[state.matchedProvince].lng;
+        }
+
+        // Update the flow state for the Report model
+        state.lat = reportLat;
+        state.lng = reportLng;
+
         // Persist the report, and export to Ushahidi
         var report = new Report(state);
         report.save(function(err, report) {
@@ -40,7 +60,6 @@ function interview(sessionState, input, phone) {
                 report.exportToUshahidi();
             }
         });
-
 
         // Reset conversation state
         state = {step:'start'};

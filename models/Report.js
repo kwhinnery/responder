@@ -1,13 +1,10 @@
-var util = require('util'),
+var mongoose = require('mongoose'),
+    util = require('util'),
     data = require('../data'),
     ushahidi = require('ushahidi');
 
-// Create a Ushahidi client to submit reports to the back end
+// Create a Ushahidi client to submit reports for visualization
 ushahidi.init('https://www.haiyantextforhelp.com/index.php/api');
-
-// Setup Mongoose ODM
-var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGOHQ_URL);
 
 // Model object for an incident report
 var reportSchema = new mongoose.Schema({
@@ -34,7 +31,9 @@ var reportSchema = new mongoose.Schema({
     problemDetail:String,
     howMany:String,
     canContact:Boolean,
-    comment:String
+    comment:String,
+    lat:Number,
+    lng:Number
 });
 
 // Ushahidi categories
@@ -56,7 +55,7 @@ reportSchema.methods.exportToUshahidi = function(cb) {
             this.date.getMonth()+1, 
             this.date.getDate(), 
             this.date.getFullYear()),
-        incident_hour: (this.date.getHours() < 12) ? this.date.getHours() : this.date.getHours()-12,
+        incident_hour: (this.date.getHours() < 12) ? this.date.getHours()+1 : this.date.getHours()-11,
         incident_minute: this.date.getMinutes(),
         incident_ampm: (this.date.getHours() < 12) ? 'am' : 'pm',
         incident_category: categories[this.problemType],
@@ -64,25 +63,10 @@ reportSchema.methods.exportToUshahidi = function(cb) {
             this.matchedProvince||'Unknown',
             this.matchedCity||'Unknown',
             this.matchedBarangay||'Unknown',
-            this.matchedVillage||'Unknown')
+            this.matchedVillage||'Unknown'),
+        latitude:this.lat,
+        longitude:this.lng
     };
-
-    // Determine the best lat/long we can use
-    var lat = 11.3333, lng = 123.0167;
-    if (this.matchedVillage) {
-        lat = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].villages[this.matchedVillage].lat;
-        lng = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].villages[this.matchedVillage].lng;
-    } else if (this.matchedBarangay) {
-        lat = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].lat;
-        lng = data.provinces[this.matchedProvince].munis[this.matchedCity].barangays[this.matchedBarangay].lng;
-    } else if (this.matchedCity) {
-        lat = data.provinces[this.matchedProvince].munis[this.matchedCity].lat;
-        lng = data.provinces[this.matchedProvince].munis[this.matchedCity].lng;
-    }
-    // TODO: we still need province lat/longs
-
-    reportData.latitude = lat;
-    reportData.longitude = lng;
 
     // Use the ushahidi client to submit a report
     ushahidi.submitReport(reportData,function(data) {
