@@ -1,0 +1,16 @@
+Node.JS Wrapper for the Ushahidi API
+
+If you want to use NodeJS to interface with the Ushahidi API, this wrapper NPM module provides a clean Javascript interface to the API.
+
+The Ushahidi API is documented on their website/wiki at https://wiki.ushahidi.com/display/WIKI/Ushahidi+REST+API
+
+Installing the Ushahidi API Wrapper
+
+npm install ushahidi
+
+Using the Ushahidi API Wrapper
+
+var ushahidi = require("ushahidi");
+
+ushahidi.init("https://YOURUSHAHIDISERVER/index.php/api/")
+
