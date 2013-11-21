@@ -60,3 +60,21 @@ exports.getClosestBarangay = function(province, city, input) {
 exports.getClosestVillage = function(province, city, barangay, input) {
     return getClosest(input, Object.keys(provinces[province].munis[city].barangays[barangay].villages));
 };
+
+// Return the first city for a matched province
+exports.getExampleMuni = function(province) {
+    for (var muni in provinces[province].munis) {
+        if (provinces[province].munis.hasOwnProperty(muni)) {
+            return muni;
+        }
+    }
+};
+
+// Return the first barangay for a matched city
+exports.getExampleBarangay = function(province, muni) {
+    for (var barangay in provinces[province].munis[muni].barangays) {
+        if (provinces[province].munis[muni].barangays.hasOwnProperty(barangay)) {
+            return barangay;
+        }
+    }
+};

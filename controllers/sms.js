@@ -132,7 +132,7 @@ function interview(sessionState, input, phone) {
                 if (state.enteredProvince.toLowerCase() === state.matchedProvince.toLowerCase()) {
                     state.provinceFound = true;
                     state.step = 'city';
-                    state.lastMessage = util.format(strings.provinceFound, state.matchedProvince);
+                    state.lastMessage = util.format(strings.provinceFound, state.matchedProvince, data.getExampleMuni(state.matchedProvince));
                 } else {
                     state.step = 'provinceEntered';
                     state.lastMessage = util.format(strings.matchConfirm, state.matchedProvince, strings.yes, strings.no);
@@ -146,7 +146,7 @@ function interview(sessionState, input, phone) {
         if (input.toLowerCase() === strings.yes) {
             state.provinceFound = true;
             state.step = 'city';
-            state.lastMessage = util.format(strings.provinceFound, state.matchedProvince);
+            state.lastMessage = util.format(strings.provinceFound, state.matchedProvince, data.getExampleMuni(state.matchedProvince));
         } else {
             skipToProblem();
         }
@@ -161,7 +161,7 @@ function interview(sessionState, input, phone) {
         if (state.enteredCity.toLowerCase() === state.matchedCity.toLowerCase()) {
             state.cityFound = true;
             state.step = 'barangay';
-            state.lastMessage = util.format(strings.cityFound, state.matchedCity);
+            state.lastMessage = util.format(strings.cityFound, state.matchedCity, data.getExampleBarangay(state.matchedProvince, state.matchedCity));
         } else {
             state.step = 'cityConfirm';
             state.lastMessage = util.format(strings.matchConfirm, state.matchedCity, strings.yes, strings.no);
@@ -173,7 +173,7 @@ function interview(sessionState, input, phone) {
         if (input.toLowerCase() === strings.yes) {
             state.cityFound = true;
             state.step = 'barangay';
-            state.lastMessage = util.format(strings.cityFound, state.matchedCity);
+            state.lastMessage = util.format(strings.cityFound, state.matchedCity, data.getExampleBarangay(state.matchedProvince, state.matchedCity));
         } else {
             skipToProblem();
         }
