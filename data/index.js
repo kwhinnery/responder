@@ -74,7 +74,9 @@ exports.getExampleMuni = function(province) {
 exports.getExampleBarangay = function(province, muni) {
     for (var barangay in provinces[province].munis[muni].barangays) {
         if (provinces[province].munis[muni].barangays.hasOwnProperty(barangay)) {
-            return barangay;
+            if (barangay !== 'Poblacion') {
+                return barangay;
+            }
         }
     }
 };
