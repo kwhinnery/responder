@@ -128,8 +128,15 @@ function interview(sessionState, input, phone) {
             if (state.matchedProvince.toLowerCase() === 'none') {
                 skipToProblem();
             } else {
-                state.step = 'provinceEntered';
-                state.lastMessage = util.format(strings.matchConfirm, state.matchedProvince, strings.yes, strings.no);
+                // Check for an exact match
+                if (state.enteredProvince.toLowerCase() === state.matchedProvince.toLowerCase()) {
+                    state.provinceFound = true;
+                    state.step = 'city';
+                    state.lastMessage = util.format(strings.provinceFound, state.matchedProvince);
+                } else {
+                    state.step = 'provinceEntered';
+                    state.lastMessage = util.format(strings.matchConfirm, state.matchedProvince, strings.yes, strings.no);
+                }
             }
         }
 
@@ -149,8 +156,16 @@ function interview(sessionState, input, phone) {
         // Let's work with their entered city
         state.enteredCity = input;
         state.matchedCity = data.getClosestCity(state.matchedProvince, input);
-        state.step = 'cityConfirm';
-        state.lastMessage = util.format(strings.matchConfirm, state.matchedCity, strings.yes, strings.no);
+
+        // Check for an exact match
+        if (state.enteredCity.toLowerCase() === state.matchedCity.toLowerCase()) {
+            state.cityFound = true;
+            state.step = 'barangay';
+            state.lastMessage = util.format(strings.cityFound, state.matchedCity);
+        } else {
+            state.step = 'cityConfirm';
+            state.lastMessage = util.format(strings.matchConfirm, state.matchedCity, strings.yes, strings.no);
+        }
 
     } else if (state.step === 'cityConfirm') {
 
@@ -168,8 +183,16 @@ function interview(sessionState, input, phone) {
         // Let's work with their entered barangay
         state.enteredBarangay = input;
         state.matchedBarangay = data.getClosestBarangay(state.matchedProvince, state.matchedCity, input);
-        state.step = 'barangayConfirm';
-        state.lastMessage = util.format(strings.matchConfirm, state.matchedBarangay, strings.yes, strings.no);
+
+        // Check for an exact match
+        if (state.enteredBarangay.toLowerCase() === state.matchedBarangay.toLowerCase()) {
+            state.barangayFound = true;
+            state.step = 'village';
+            state.lastMessage = util.format(strings.barangayFound, state.matchedBarangay);
+        } else {
+            state.step = 'barangayConfirm';
+            state.lastMessage = util.format(strings.matchConfirm, state.matchedBarangay, strings.yes, strings.no);
+        }
 
     } else if (state.step === 'barangayConfirm') {
 
