@@ -16,6 +16,7 @@ var reportSchema = new mongoose.Schema({
         type: Date, 
         default: Date.now 
     },
+    reporterHash:String,
     phone:String,
     language:String,
     enteredProvince:String,

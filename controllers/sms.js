@@ -1,5 +1,6 @@
 var twilio = require('twilio'),
     util = require('util'),
+    bcrypt = require('bcrypt'),
     cookie = require('cookie'),
     _ = require('underscore'),
     data = require('../data'),
@@ -48,6 +49,11 @@ function interview(sessionState, input, phone) {
         // Update the flow state for the Report model
         state.lat = reportLat||11.3333;
         state.lng = reportLng||123.0167;
+
+        // Create a hash of the user's phone number so we can uniquely identify
+        // the reporter without storing their phone number
+        var phoneHash = bcrypt.hashSync(phone, bcrypt.genSaltSync(10));
+        state.reporterHash = bcrypt.hashSync(phone, bcrypt.genSaltSync(10));
 
         // Persist the report, and export to Ushahidi
         var report = new Report(state);
