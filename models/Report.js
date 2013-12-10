@@ -56,9 +56,9 @@ reportSchema.methods.exportToUshahidi = function(cb) {
     var self = this, reportData = {
         incident_title:'[SMS Report]: '+this.problemDetail,
         incident_description:this.comment +'. Persons affected: '+ this.howMany,
-        incident_date:util.format('%d/%d/%d', 
-            this.date.getMonth()+1, 
-            this.date.getDate(), 
+        incident_date:util.format('%s/%s/%d', 
+            this.date.getMonth() < 9 ? '0'+String(this.date.getMonth()+1) : String(this.date.getMonth()+1), 
+            this.date.getDate() < 10 ? '0'+String(this.date.getDate()) : String(this.date.getDate()),
             this.date.getFullYear()),
         incident_hour: (this.date.getHours() < 12) ? this.date.getHours()+1 : this.date.getHours()-11,
         incident_minute: this.date.getMinutes(),
