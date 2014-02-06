@@ -1,6 +1,6 @@
 # Responder
 
-Allow Filipinos affected by the storm to report conditions on the ground via SMS, allowing the international aid community to better plan their response.
+Find the nearest WHO treatment center for TB in the Philippines via an SMS interview.
 
 ## Server Deployment
 
