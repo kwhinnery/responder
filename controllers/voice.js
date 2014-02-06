@@ -10,7 +10,7 @@ module.exports = function(request, response) {
 
         // Send back the proper TwiML
         var twiml = new twilio.TwimlResponse();
-        twiml.say('Please send an SMS text message to this number to assist the international aid response. Thank you!', {
+        twiml.say('Please send an SMS text message to this number to receive information on TB medication. Thank you!', {
             voice:'woman'
         });
         response.type('text/xml');

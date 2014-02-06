@@ -2,17 +2,17 @@
 module.exports = {
 
     // WHO app strings
-    matchConfirm: 'We thought you said "%s". Is that right? (Text "%s" or "%s")'
+    matchConfirm: '[war] We thought you said "%s". Is that right? (Text "%s" or "%s")'
 
     // interview steps
-    , start: 'For TB information in English, text "1". [waray]For TB information in Waray, text "2". [fil]For TB information in Pilipino, text "3"'
-    , province: 'Thank you for contacting the TB information line. What province are you in (Example: %s)?'
-    , provinceFound: 'Great, you are in %s. What city/municipality are you in? (Example: "%s")'
-    , cityFound: 'Great, you are in %s. What barangay are you in? (Example: "%s")'
-    , barangayFound: 'Based on what you have told us, your nearest TB treatment center is %s'
+    , start: '[war] For TB information in English, text "1". [waray]For TB information in Waray, text "2". [fil]For TB information in Pilipino, text "3"'
+    , province: '[war] Thank you for contacting the TB information line. What province are you in (Example: %s)?'
+    , provinceFound: '[war] Great, you are in %s. What city/municipality are you in? (Example: "%s")'
+    , cityFound: '[war] Great, you are in %s. What barangay are you in? (Example: "%s")'
+    , barangayFound: '[war] Based on what you have told us, your nearest TB treatment center is %s'
 
     // This will be the same for both languages:
-    , preroll:'Thank you for assisting international aid efforts!  To continue in English, text the word "English". Upang magpatuloy sa Filipino, text ang salitang "Pilipino"'
+    , preroll:'[war] Thank you for assisting international aid efforts!  To continue in English, text the word "English". Upang magpatuloy sa Filipino, text ang salitang "Pilipino"'
     
     // These are pre-localized responses for questions
     , yes:'yes'

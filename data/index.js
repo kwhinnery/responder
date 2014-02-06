@@ -1,9 +1,12 @@
-// A node.js implementation of the L-diggity
-var Levenshtein = require('levenshtein');
+var Levenshtein = require('levenshtein'),
+    geolib = require('geolib');
 
 // Load in pre-generated Philippines location data
-var provinces = require('./villages.json');
+var provinces = require('./villages.json'),
+    clinics = require('./clinics.json');
+
 exports.provinces = provinces;
+exports.clinics = clinics;
 
 // Get the closest levenshtein value, given a list of values
 function getClosest(input, possibleValues) {
@@ -79,4 +82,24 @@ exports.getExampleBarangay = function(province, muni) {
             }
         }
     }
+};
+
+// Get the closest clinic, based on the matched barangay
+// Obviously, this should be optimized ot not have to loop through all 6,000
+// some odd clinics, but since it's in memory it's pretty fast
+exports.getClosestClinic = function(barangayLat, barangayLong) {
+    var closestClinic, bestDistance;
+    for (var clinic in clinics) {
+        var distance = geolib.getDistance({
+            latitude:barangayLat,
+            longitude:barangayLong
+        }, clinics[clinic]);
+
+        if (!bestDistance || distance < bestDistance) {
+            bestDistance = distance;
+            closestClinic = clinic;
+        }
+    }
+
+    return closestClinic;
 };
